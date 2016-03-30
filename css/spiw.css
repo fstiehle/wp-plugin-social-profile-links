@@ -1,0 +1,132 @@
+@font-face {
+  font-family: 'spiw';
+  src: url('../font/spiw.eot?21992650');
+  src: url('../font/spiw.eot?21992650#iefix') format('embedded-opentype'),
+       url('../font/spiw.woff2?21992650') format('woff2'),
+       url('../font/spiw.woff?21992650') format('woff'),
+       url('../font/spiw.ttf?21992650') format('truetype'),
+       url('../font/spiw.svg?21992650#spiw') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
+/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
+/*
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: 'spiw';
+    src: url('../font/spiw.svg?21992650#spiw') format('svg');
+  }
+}
+*/
+ 
+ [class^="spiw-icon-"]:before, [class*=" spiw-icon-"]:before {
+  font-family: "spiw";
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+ 
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  margin-right: .2em;
+  text-align: center;
+  /* opacity: .8; */
+ 
+  /* For safety - reset parent styles, that can break glyph codes*/
+  font-variant: normal;
+  text-transform: none;
+ 
+  /* fix buttons height, for twitter bootstrap */
+  line-height: 1em;
+ 
+  /* Animation center compensation - margins should be symmetric */
+  /* remove if not needed */
+  margin-left: .2em;
+ 
+  /* you can be more comfortable with increased spiw-icons size */
+  /* font-size: 120%; */
+ 
+  /* Font smoothing. That was taken from TWBS */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+ 
+  /* Uncomment for 3D effect */
+  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+}
+ 
+.spiw-icon-xing:before { content: '\e800'; } /* '' */
+.spiw-icon-youtube:before { content: '\e801'; } /* '' */
+.spiw-icon-wordpress:before { content: '\e802'; } /* '' */
+.spiw-icon-whatsapp:before { content: '\e803'; } /* '' */
+.spiw-icon-vine:before { content: '\e804'; } /* '' */
+.spiw-icon-twitter:before { content: '\e805'; } /* '' */
+.spiw-icon-twitch:before { content: '\e806'; } /* '' */
+.spiw-icon-tumblr:before { content: '\e807'; } /* '' */
+.spiw-icon-steam:before { content: '\e808'; } /* '' */
+.spiw-icon-skype:before { content: '\e809'; } /* '' */
+.spiw-icon-reddit:before { content: '\e80a'; } /* '' */
+.spiw-icon-pinterest:before { content: '\e80b'; } /* '' */
+.spiw-icon-linkedin:before { content: '\e80c'; } /* '' */
+.spiw-icon-facebook:before { content: '\e80d'; } /* '' */
+.spiw-icon-behance:before { content: '\e80e'; } /* '' */
+.spiw-icon-codeopen:before { content: '\e80f'; } /* '' */
+.spiw-icon-gplus:before { content: '\e810'; } /* '' */
+.spiw-icon-instagram:before { content: '\e811'; } /* '' */
+.spiw-icon-jsfiddle:before { content: '\e812'; } /* '' */
+.spiw-icon-github-circled:before { content: '\e813'; } /* '' */
+.spiw-icon-dropbox:before { content: '\e814'; } /* '' */
+
+/* Widget Syle
+/*************
+*/
+.widget_social-profile-icons ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+    font-size: 40px;
+}
+.widget_social-profile-icons li {
+    display: inline-block;
+	margin: 0 5px 5px 0;
+    list-style: none;
+    background-color: #f5f5f5;
+}
+.widget_social-profile-icons li .icon {
+	color: #333;	
+    padding: 0;
+}
+.widget_social-profile-icons .spiw-icon {
+    display: inline-block;
+    -webkit-transition: all .3s ease-in-out;
+  	-moz-transition: all .3s ease-in-out; 	
+  	-o-transition: all .3s ease-in-out;
+ 	transition: all .3s ease-in-out;
+}
+.widget_social-profile-icons .spiw-facebook:hover .spiw-icon {
+	background-color: #3b5998;
+	color: #fff;
+}
+.widget_social-profile-icons .spiw-twitter:hover .spiw-icon {
+	background-color: #00aced;
+	color: #fff;
+}
+.widget_social-profile-icons .spiw-gplus:hover .spiw-icon {
+	background-color: #dd4b39;
+	color: #fff;
+}
+.widget_social-profile-icons .spiw-pinterest:hover .spiw-icon {
+	background-color: #cb2027;
+	color: #fff;
+}
+.widget_social-profile-icons .spiw-instagram:hover .spiw-icon {
+	background-color: #517fa4;
+	color: #fff;
+}
+.widget_social-profile-icons .spiw-youtube:hover .spiw-icon {
+	background-color: #bb0000;
+	color: #fff;
+}
+.widget_social-profile-icons li:hover .spiw-icon {
+	opacity: 0.8;	
+}
