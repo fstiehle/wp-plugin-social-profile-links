@@ -180,7 +180,7 @@ class WP_Widget_social_profile_icons extends WP_Widget {
                 esc_attr($instance['monocron-color']) : self::$defaults["monocron-color"]; ?>
             
             <label for="<?php echo $this->get_field_id('monocron-color'); ?>">
-                <?php _e('Moncron icon-color:', "spiw"); ?>
+                <?php _e('Moncron Background Icon-color:', "spiw"); ?>
             </label>
 
             <input id="<?php echo $this->get_field_id('monocron-color'); ?>"
@@ -242,6 +242,9 @@ class WP_Widget_social_profile_icons extends WP_Widget {
             $output .= '
                 .widget_social-profile-icons .spiw-icon {                
                     color: #fff;
+                }
+                .widget_social-profile-icons li:hover .spiw-icon {
+	                opacity: 0.6;	
                 }
             ';
         } else if ($instance['monocron-color'] != "#F5f5f5") {
