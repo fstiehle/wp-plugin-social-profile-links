@@ -116,7 +116,7 @@ class WP_Widget_social_profile_icons extends WP_Widget {
         <!-- User -->
         <p>
             <label for="<?php echo $this->get_field_id('users'); ?>">
-                <?php _e('Chose a user to display:', "spiw"); ?>
+                <?php _e('Chose an user to display:', "spiw"); ?>
             </label>
 
         <?php wp_dropdown_users(array('id' => $this->get_field_id('users'),
@@ -187,7 +187,7 @@ class WP_Widget_social_profile_icons extends WP_Widget {
                    data-default-color="<?php echo self::$defaults["monocron-color"]; ?>" />
             <br />
             <label for="<?php echo $this->get_field_id('monocron-color'); ?>">
-                <?php _e('Moncron background icon color', "spiw"); ?>
+                <?php _e('Monocron background icon color', "spiw"); ?>
             </label>
         </p>
         <?php /** END HTML Code **/
