@@ -117,7 +117,7 @@ class WP_Widget_social_profile_icons extends WP_Widget {
         /* Icon size : text field
         /* Border radius: text field
         /* Rounded : checkbox
-        /* Monocorn : checkbox
+        /* Monocron : checkbox
         /* Monocron color: wp_colorpicker
         **/ ?>   
         <!-- Title -->
@@ -132,6 +132,9 @@ class WP_Widget_social_profile_icons extends WP_Widget {
         </p>
 
         <!-- User -->
+        <p>
+        <?php _e('Update your social media accounts in your user profile "Users" - "Your Profile"', "spiw"); ?>
+        </p>
         <p>
             <label for="<?php echo $this->get_field_id('users'); ?>">
                 <?php _e('Chose an user to display:', "spiw"); ?>
@@ -254,44 +257,45 @@ class WP_Widget_social_profile_icons extends WP_Widget {
     /***/ 
     private function get_custom_css($instance) {
         $output = '<style media="screen" type="text/css">';
+        $selector = '#social-profile-icons-' . $this->number;
         
         if(!$rounded = isset($instance['rounded']) ? True : False) {
             $border_radius = isset($instance['border-radius']) ? esc_attr($instance['border-radius']) :
                 self::$defaults["border-radius"];
         
-            $output .= '
-                .widget_social-profile-icons li,
-                .widget_social-profile-icons .spiw-icon {                
+            $output .= 
+                $selector . ' li,
+                #social-profile-icons-' . $this->number . ' .spiw-icon {                
                     border-radius:' . $border_radius . ';                
                 }
             ';
         } else {
-            $output .= '
-                .widget_social-profile-icons li,
-                .widget_social-profile-icons .spiw-icon {                
+            $output .= 
+                $selector . ' li,' .
+                $selector . ' .spiw-icon {                
                     border-radius: 100%;                
                 }
             ';
         }
         if (!isset($instance['monocron'])) {
-            $output .= '
-                .widget_social-profile-icons .spiw-icon {                
+            $output .= 
+                $selector . ' .spiw-icon {                
                     color: #fff;
-                }
-                .widget_social-profile-icons li:hover .spiw-icon {
+                }' .
+                $selector . ' li:hover .spiw-icon {
 	                opacity: 0.6;	
                 }
             ';
         } else if ($instance['monocron-color'] != "#F5f5f5") {
-           $output .= '
-                .widget_social-profile-icons li {                
+           $output .= 
+                $selector . ' li {                
                     background-color: ' . $instance['monocron-color'] . ';
                 }
             '; 
         }
         if (isset($instance['icon-size']) && $instance['icon-size'] != "40px") {
-           $output .= '
-                .widget_social-profile-icons ul {                
+           $output .= 
+                $selector . ' ul {                
                     font-size: ' . $instance['icon-size'] . ';
                 }
             '; 
@@ -339,3 +343,11 @@ function spiw_admin_scripts($hook) {
                     array('wp-color-picker'), false, true);
 }
 add_action('admin_enqueue_scripts', 'spiw_admin_scripts');
+
+/**
+ * Textdomain
+ */
+add_action('plugins_loaded', 'spiw_load_textdomain');
+function spiw_load_textdomain() {
+	load_plugin_textdomain( 'spiw', false, dirname( plugin_basename(__FILE__) ) . '/languages/' );
+} ?>
