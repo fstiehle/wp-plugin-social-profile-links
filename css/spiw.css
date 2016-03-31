@@ -54,7 +54,7 @@
   /* Uncomment for 3D effect */
   /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
 }
- 
+
 .spiw-icon-xing:before { content: '\e800'; } /* '' */
 .spiw-icon-youtube:before { content: '\e801'; } /* '' */
 .spiw-icon-wordpress:before { content: '\e802'; } /* '' */
@@ -104,6 +104,11 @@
   	-o-transition: all .3s ease-in-out;
  	transition: all .3s ease-in-out;
 }
+
+/* Icon hover colors (brand colors)
+/* branding colors from: http://brandcolors.net/
+/*************
+*/
 .widget_social-profile-icons .spiw-facebook:hover .spiw-icon {
 	background-color: #3b5998;
 	color: #fff;

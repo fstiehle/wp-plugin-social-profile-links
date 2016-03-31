@@ -12,7 +12,7 @@ Domain Path: /languages
 Text Domain: spiw
 */
 
-defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
+defined('ABSPATH') or die();
 
 /***
 /* Social Links Widget
@@ -73,7 +73,7 @@ class WP_Widget_social_profile_icons extends WP_Widget {
         foreach (self::$profiles as $key => $color) {
             if (get_the_author_meta($key, $user)) {
 
-                // Set Branded Background Color if monocron setting is deactivated
+                // Set branded background color if monocron setting is deactivated
                 if(!isset($instance['monocron'])) {
                     $output .= '<li style="background-color:' . $color . '">';
                 } else {
