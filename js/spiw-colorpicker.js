@@ -1,7 +1,10 @@
 (function($) {
-    $('.spiw-color-field').wpColorPicker();
+    function init() {
+       $('.spiw-color-field').wpColorPicker(); 
+    }
     
-    $(document).ajaxSuccess(function(e, xhr, settings) {
-        $('.spiw-color-field').wpColorPicker();
-    });
+    $(document).ready(function() {
+       init(); 
+    });    
+    $(document).on('widget-updated', init);
 }(jQuery));
