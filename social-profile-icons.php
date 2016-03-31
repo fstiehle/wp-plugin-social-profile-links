@@ -153,40 +153,42 @@ class WP_Widget_social_profile_icons extends WP_Widget {
         <?php $rounded = isset($instance['rounded']) ?
             True : False; ?>
         <p>
-            <label for="<?php echo $this->get_field_id('rounded'); ?>">
-                <?php _e('Round Icons:', "spiw"); ?>
-            </label>
-
             <input id="<?php echo $this->get_field_id('rounded'); ?>" 
                    name="<?php echo $this->get_field_name('rounded'); ?>"
                    type="checkbox" <?php checked($rounded); ?> />
+            
+            <label for="<?php echo $this->get_field_id('rounded'); ?>">
+                <?php _e('Round icons', "spiw"); ?>
+            </label>
         </p>
 
         <!-- Monocron -->
         <?php $monocron = isset($instance['monocron']) ?
              True : False; ?>
         <p>
-            <label for="<?php echo $this->get_field_id('monocron'); ?>">
-                <?php _e('Monocron style:', "spiw"); ?>
-            </label>
-
-            <input id="<?php echo $this->get_field_id('monocron'); ?>" 
+           <input id="<?php echo $this->get_field_id('monocron'); ?>" 
                    name="<?php echo $this->get_field_name('monocron'); ?>"
                    type="checkbox" <?php checked($monocron); ?> />
+            
+             <label for="<?php echo $this->get_field_id('monocron'); ?>">
+                <?php _e('Monocron style', "spiw"); ?>
+            </label><br />
+            <p><?php _e('Icons will be displayed in a configurable color
+            and fade into their branded color on mouse hover.', "spiw"); ?></p>
         </p>
         <!-- Monocron color -->
         <p>
             <?php $monocron_color = isset($instance['monocron-color']) ?
                 esc_attr($instance['monocron-color']) : self::$defaults["monocron-color"]; ?>
             
-            <label for="<?php echo $this->get_field_id('monocron-color'); ?>">
-                <?php _e('Moncron Background Icon-color:', "spiw"); ?>
-            </label>
-
             <input id="<?php echo $this->get_field_id('monocron-color'); ?>"
                    name="<?php echo $this->get_field_name('monocron-color'); ?>"
                    type="text" value="<?php echo $monocron_color; ?>" class="spiw-color-field" 
                    data-default-color="<?php echo self::$defaults["monocron-color"]; ?>" />
+            <br />
+            <label for="<?php echo $this->get_field_id('monocron-color'); ?>">
+                <?php _e('Moncron background icon color', "spiw"); ?>
+            </label>
         </p>
         <?php /** END HTML Code **/
     }
