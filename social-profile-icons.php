@@ -3,7 +3,7 @@
 Plugin Name: Social Profile Icons Widget
 Plugin URI:  http://fabianstiehle.com/spiw
 Description: This describes my plugin in a short sentence
-Version:     0.1
+Version:     0.8
 Author:      Fabian Stiehle
 Author URI:  http://fabianstiehle.com
 License:     GPL2
@@ -21,6 +21,8 @@ class WP_Widget_social_profile_icons extends WP_Widget {
     
     /***
     /* Defines supported profiles and their order
+    /* 'css-style' => 'hex-color'
+    /* find branding colors on: http://brandcolors.net/
     /***/    
     private static $profiles = array(
     'facebook' => '#3b5998',
@@ -54,7 +56,7 @@ class WP_Widget_social_profile_icons extends WP_Widget {
 
         $title = (!empty($instance['title'])) ? $instance['title'] : __('Follow me', "spiw");   
 
-        /** wp-includes/default-widgets.php */
+        /** See: wp-includes/default-widgets.php */
         $title = apply_filters( 'widget_title', $title, $instance, $this->id_base );              
 
         $output = '';
@@ -63,29 +65,34 @@ class WP_Widget_social_profile_icons extends WP_Widget {
         if ($title) {
             $output .= $before_title . $title . $after_title;
         }
-
+        
+        // Print Widget Output
         $user = $this->get_current_user($instance);
         $output .= '<ul id="spiw"' . '-sociallinks">';
 
         foreach (self::$profiles as $key => $color) {
             if (get_the_author_meta($key, $user)) {
+
+                // Set Branded Background Color if monocron setting is deactivated
                 if(!isset($instance['monocron'])) {
                     $output .= '<li style="background-color:' . $color . '">';
                 } else {
                     $output .= '<li>';
-                }           
+                }
                 $output .= '<a class="spiw-' . $key . '" href="' . get_the_author_meta($key, $user) .
                 '"><i class="spiw-icon spiw-icon-' . $key . '"></i></a></li>';
             }
         }
-
         $output .= '</ul>';
         $output .= $this->get_custom_css($instance);
 
         $output .= $after_widget;
         echo $output;    
     }
-
+    
+    /***
+    /* Update widget options
+    /***/  
     function update($new_instance, $old_instance) {
         $instance['title'] = strip_tags(stripslashes($new_instance['title']));
         $instance['users'] = stripslashes($new_instance['users']);
@@ -101,7 +108,18 @@ class WP_Widget_social_profile_icons extends WP_Widget {
         $title  = isset( $instance['title'] ) ? esc_attr( $instance['title'] ) : '';
         $user = $this->get_current_user($instance);
         
-        /** HTML Code **/ ?>   
+        /***
+        /* HTML CODE
+        /* Print the widget options:
+        /**
+        /* Title : text field
+        /* User : wp_dropdown_users
+        /* Icon size : text field
+        /* Border radius: text field
+        /* Rounded : checkbox
+        /* Monocorn : checkbox
+        /* Monocron color: wp_colorpicker
+        **/ ?>   
         <!-- Title -->
         <p>
             <label for="<?php echo $this->get_field_id('title'); ?>">
@@ -192,7 +210,10 @@ class WP_Widget_social_profile_icons extends WP_Widget {
         </p>
         <?php /** END HTML Code **/
     }
-
+    
+    /***
+    /* Gets current selected user in widget options
+    /***/ 
     private function get_current_user($instance) {
         $output = '';
         if (!empty($instance['users'])) {
@@ -206,6 +227,10 @@ class WP_Widget_social_profile_icons extends WP_Widget {
         return $output;
     }
     
+    /***
+    /* Validates size input, makes sure the size is given in "px"
+    /* -> Is directly used in css!
+    /***/ 
     private function check_size($css) {
         $css = preg_replace("/[^0-9]/", "", $css);
         if(intval($css) < 100 and intval($css) > 0) {            
@@ -213,12 +238,20 @@ class WP_Widget_social_profile_icons extends WP_Widget {
         }
     }
     
+    /***
+    /* Validates color input
+    /* -> Color is directly used in css!
+    /***/ 
     private function check_color($color) {
         if (preg_match( '/^#[a-f0-9]{6}$/i', $color)) {
             return $color;
         }
     }
     
+    /***
+    /* Gets custom inline css
+    /* as much as possible should be coming from the integrated spiw.css
+    /***/ 
     private function get_custom_css($instance) {
         $output = '<style media="screen" type="text/css">';
         
@@ -266,7 +299,7 @@ class WP_Widget_social_profile_icons extends WP_Widget {
         $output .= '</style>';
         return $output;
     }
-}
+} /* END Widget class */
 
 
 function spiw_register_widgets() {
