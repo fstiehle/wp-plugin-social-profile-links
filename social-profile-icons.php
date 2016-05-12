@@ -13,22 +13,86 @@ Text Domain: spiw
 */
 defined('ABSPATH') or die();
 
+add_action('plugins_loaded', 'spiw_load_textdomain');
+/**
+ * Load Textdomain
+ */
+function spiw_load_textdomain() {
+	load_plugin_textdomain('spiw', false, dirname(plugin_basename(__FILE__)) . '/languages/');
+}
+
 class WP_Widget_social_profile_icons extends WP_Widget {
-    
+
     /**
      * Defines supported profiles and their order
-     * 'css-style' => 'hex-color'
+     * 'css' => css icon class
+     * 'color' => hex color
+     * 'label' => label name
      * find branding colors on: http://brandcolors.net/
-     */    
-    private static $profiles = array(
-        'facebook' => '#3b5998',
-        'twitter' => '#00aced',
-        'gplus' => '#dd4b39',
-        'pinterest' => '#cb2027',
-        'instagram' => '#517fa4',
-        'youtube' => '#bb0000',
+     */
+    static $profiles = array(
+        array(
+            'css' => 'facebook',
+            'color' => '#3b5998',
+            'label' => 'Facebook',
+        ),
+        array(
+            'css' => 'twitter',
+            'color' => '#00aced',
+            'label' => 'Twitter',
+        ),
+        array(
+            'css' => 'gplus',
+            'color' => '#dd4b39',
+            'label' => 'Google Plus',
+        ),
+        array(
+            'css' => 'pinterest',
+            'color' => '#cb2027',
+            'label' => 'Pinterest',
+        ),
+        array(
+            'css' => 'instagram',
+            'color' => '#517fa4',
+            'label' => 'Instagram',
+        ),
+        array(
+            'css' => 'youtube',
+            'color' => '#bb0000',
+            'label' => 'Youtube',
+        ),
+        array(
+            'css' => 'github',
+            'color' => '#333333',
+            'label' => 'Github',
+        ),
+        array(
+            'css' => 'behance',
+            'color' => '#1769ff',
+            'label' => 'Behance',
+        ),
+        array(
+            'css' => 'linkedin',
+            'color' => '#0077b5',
+            'label' => 'LinkedIn',
+        ),
+        array(
+            'css' => 'xing',
+            'color' => '#026466',
+            'label' => 'Xing',
+        ),
+        array(
+            'css' => 'twitch',
+            'color' => '#6441a5',
+            'label' => 'Twitch',
+        ),
+        array(
+            'css' => 'vine',
+            'color' => '#00b488',
+            'label' => 'Vine',
+        ),
     );
-    
+
     /**
      * Default widget settings
      */  
@@ -44,6 +108,9 @@ class WP_Widget_social_profile_icons extends WP_Widget {
 
         parent::__construct('social-profile-icons', __('Social Links', "spiw"), $widget_ops);
         $this->alt_option_name = 'widget_social-profile-icons';
+
+        // Add new user fields
+        add_filter('user_contactmethods', 'spiw_user_fields');
     }
 
     function widget($args, $instance) {
@@ -53,7 +120,7 @@ class WP_Widget_social_profile_icons extends WP_Widget {
         $title = (!empty($instance['title'])) ? $instance['title'] : __('Follow me', "spiw");   
 
         // See: wp-includes/default-widgets.php
-        $title = apply_filters( 'widget_title', $title, $instance, $this->id_base );              
+        $title = apply_filters('widget_title', $title, $instance, $this->id_base);              
 
         $output = '';
         $output .= $before_widget;
@@ -61,22 +128,21 @@ class WP_Widget_social_profile_icons extends WP_Widget {
         if ($title) {
             $output .= $before_title . $title . $after_title;
         }
-        
+
         // Print Widget Output
         $user = $this->get_current_user($instance);
         $output .= '<ul id="spiw"' . '-sociallinks">';
 
-        foreach (self::$profiles as $key => $color) {
-            if (get_the_author_meta($key, $user)) {
-
+        foreach (self::$profiles as $key) {
+            if (get_the_author_meta($key['css'], $user)) {
                 // Set branded background color if monocron setting is deactivated
                 if(!isset($instance['monocron'])) {
-                    $output .= '<li style="background-color:' . $color . '">';
+                    $output .= '<li style="background-color:' . $key['color'] . '">';
                 } else {
                     $output .= '<li>';
                 }
-                $output .= '<a class="spiw-' . $key . '" href="' . get_the_author_meta($key, $user) .
-                '"><i class="spiw-icon spiw-icon-' . $key . '"></i></a></li>';
+                $output .= '<a class="spiw-' . $key['css'] . '" href="' . get_the_author_meta($key['css'], $user) .
+                '"><i class="spiw-icon spiw-icon-' . $key['css'] . '"></i></a></li>';
             }
         }
         $output .= '</ul>';
@@ -85,15 +151,15 @@ class WP_Widget_social_profile_icons extends WP_Widget {
         $output .= $after_widget;
         echo $output;    
     }
-    
+
     /**
      * Update widget options
      */  
     function update($new_instance, $old_instance) {
-        $instance['title'] = strip_tags(stripslashes($new_instance['title']));
-        $instance['users'] = stripslashes($new_instance['users']);
-        $instance['icon-size'] = $this->check_size(strip_tags(stripslashes($new_instance['icon-size'])));
-        $instance['border-radius'] = $this->check_size(strip_tags(stripslashes($new_instance['border-radius'])));
+        $instance['title'] = strip_tags($new_instance['title']);
+        $instance['users'] = $new_instance['users'];
+        $instance['icon-size'] = $this->check_size(strip_tags($new_instance['icon-size']));
+        $instance['border-radius'] = $this->check_size(strip_tags($new_instance['border-radius']));
         $instance['rounded'] = $new_instance['rounded'];
         $instance['monocron'] = $new_instance['monocron'];
         $instance['monocron-color'] = $this->check_color($new_instance['monocron-color']); 
@@ -103,11 +169,11 @@ class WP_Widget_social_profile_icons extends WP_Widget {
     function form($instance) {
         $title  = isset( $instance['title'] ) ? esc_attr( $instance['title'] ) : '';
         $user = $this->get_current_user($instance);
-        
+
         /**
          * widget-view.php
          *
-         * Widget Settings:
+         * Settings:
          * Title : text field
          * User : wp_dropdown_users
          * Icon size : text field
@@ -165,12 +231,12 @@ class WP_Widget_social_profile_icons extends WP_Widget {
     private function get_custom_css($instance) {
         $output = '<style media="screen" type="text/css">';
         $selector = '#social-profile-icons-' . $this->number;
-        
+
         // Rounded or not
         if(!$rounded = isset($instance['rounded']) ? True : False) {
             $border_radius = isset($instance['border-radius']) ? esc_attr($instance['border-radius']) :
                 self::$defaults["border-radius"];
-        
+
             $output .= 
                 $selector . ' li,
                 #social-profile-icons-' . $this->number . ' .spiw-icon {                
@@ -181,8 +247,7 @@ class WP_Widget_social_profile_icons extends WP_Widget {
                 $selector . ' li,' .
                 $selector . ' .spiw-icon {                
                     border-radius: 100%;                
-                }
-            ';
+                }';
         }
 
         // Monocron setting
@@ -211,33 +276,40 @@ class WP_Widget_social_profile_icons extends WP_Widget {
         $output .= '</style>';
         return $output;
     }
-} /* END Widget class */
 
-// Register the widget
+    /**
+     * Add User Profile fields
+     */
+    private function spiw_user_fields($profile_fields) {
+        foreach (self::$profiles as $key) {
+            $profile_fields[$key['css']] = __($key['label'] . ' Profile Link', 'spiw');
+        }
+        return $profile_fields;
+    }
+
+}
+
+/**
+ * Register the widget
+ */
 function spiw_register_widgets() {
     register_widget('WP_Widget_social_profile_icons');
 }
 add_action('widgets_init', 'spiw_register_widgets');
 
-// Add new user fields
-function spiw_user_fields($profile_fields) {
-	$profile_fields['twitter'] = __('Twitter URL', "spiw");
-	$profile_fields['facebook'] = __('Facebook URL', "spiw");
-	$profile_fields['gplus'] = __('Google+ URL', "spiw");
-	$profile_fields['pinterest'] = __('Pinterest URL', "spiw");
-	$profile_fields['instagram'] = __('Instagram URL', "spiw");
-	$profile_fields['youtube'] = __('Youtube URL', "spiw");
-	return $profile_fields;
-}
-add_filter('user_contactmethods', 'spiw_user_fields');
-
-// Enqueue scripts and styles.
+/**
+ * Enqueue scripts and styles.
+ * css
+ */
 function spiw_scripts() { 
 	wp_enqueue_style('spiw-css', plugins_url('/css/spiw.css', __FILE__ ));
 }
 add_action('wp_enqueue_scripts', 'spiw_scripts');
 
-// Color picker script
+/**
+ * Enqueue scripts and styles.
+ * Color picker
+ */
 function spiw_admin_scripts($hook) {
     if ('widgets.php' != $hook) {
         return;
@@ -247,9 +319,3 @@ function spiw_admin_scripts($hook) {
                     array('wp-color-picker'), false, true);
 }
 add_action('admin_enqueue_scripts', 'spiw_admin_scripts');
-
-// Load textdomain
-add_action('plugins_loaded', 'spiw_load_textdomain');
-function spiw_load_textdomain() {
-	load_plugin_textdomain('spiw', false, dirname(plugin_basename(__FILE__)) . '/languages/');
-}

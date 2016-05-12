@@ -1,3 +1,5 @@
+<!-- Used to display the widget options -->
+
 <!-- Title -->
 <p>
     <label for="<?php echo $this->get_field_id('title'); ?>">
@@ -13,12 +15,13 @@
 <p>
     <?php _e('Update your social media accounts in your user profile "Users" - "Your Profile"', "spiw"); ?>
 </p>
+
 <p>
     <label for="<?php echo $this->get_field_id('users'); ?>">
         <?php _e('Chose an user to display:', "spiw"); ?>
     </label>
 
-<?php wp_dropdown_users(array('id' => $this->get_field_id('users'),
+    <?php wp_dropdown_users(array('id' => $this->get_field_id('users'),
                      'name' => $this->get_field_name('users'), 'selected'=> $user)); ?>
 </p>
 
