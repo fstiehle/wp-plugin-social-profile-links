@@ -11,35 +11,31 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Domain Path: /languages
 Text Domain: spiw
 */
-
 defined('ABSPATH') or die();
 
-/***
-/* Social Links Widget
-/***/
-class WP_Widget_social_profile_icons extends WP_Widget {    
+class WP_Widget_social_profile_icons extends WP_Widget {
     
-    /***
-    /* Defines supported profiles and their order
-    /* 'css-style' => 'hex-color'
-    /* find branding colors on: http://brandcolors.net/
-    /***/    
+    /**
+     * Defines supported profiles and their order
+     * 'css-style' => 'hex-color'
+     * find branding colors on: http://brandcolors.net/
+     */    
     private static $profiles = array(
-    'facebook' => '#3b5998',
-    'twitter' => '#00aced',
-    'gplus' => '#dd4b39',
-    'pinterest' => '#cb2027',
-    'instagram' => '#517fa4',
-    'youtube' => '#bb0000',
+        'facebook' => '#3b5998',
+        'twitter' => '#00aced',
+        'gplus' => '#dd4b39',
+        'pinterest' => '#cb2027',
+        'instagram' => '#517fa4',
+        'youtube' => '#bb0000',
     );
     
-    /***
-    /* Default widget settings
-    /***/  
+    /**
+     * Default widget settings
+     */  
     private static $defaults = array(
-    'icon-size' => "40px",
-    'border-radius' => "0",
-    'monocron-color' => "#F5f5f5",
+        'icon-size' => "40px",
+        'border-radius' => "0",
+        'monocron-color' => "#F5f5f5",
     );
 
     function __construct() {
@@ -56,7 +52,7 @@ class WP_Widget_social_profile_icons extends WP_Widget {
 
         $title = (!empty($instance['title'])) ? $instance['title'] : __('Follow me', "spiw");   
 
-        /** See: wp-includes/default-widgets.php */
+        // See: wp-includes/default-widgets.php
         $title = apply_filters( 'widget_title', $title, $instance, $this->id_base );              
 
         $output = '';
@@ -90,9 +86,9 @@ class WP_Widget_social_profile_icons extends WP_Widget {
         echo $output;    
     }
     
-    /***
-    /* Update widget options
-    /***/  
+    /**
+     * Update widget options
+     */  
     function update($new_instance, $old_instance) {
         $instance['title'] = strip_tags(stripslashes($new_instance['title']));
         $instance['users'] = stripslashes($new_instance['users']);
@@ -108,115 +104,24 @@ class WP_Widget_social_profile_icons extends WP_Widget {
         $title  = isset( $instance['title'] ) ? esc_attr( $instance['title'] ) : '';
         $user = $this->get_current_user($instance);
         
-        /***
-        /* HTML CODE
-        /* Print the widget options:
         /**
-        /* Title : text field
-        /* User : wp_dropdown_users
-        /* Icon size : text field
-        /* Border radius: text field
-        /* Rounded : checkbox
-        /* Monocron : checkbox
-        /* Monocron color: wp_colorpicker
-        **/ ?>   
-        <!-- Title -->
-        <p>
-            <label for="<?php echo $this->get_field_id('title'); ?>">
-                <?php _e('Title:', "spiw"); ?>
-            </label>
-
-            <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" 
-                   name="<?php echo $this->get_field_name('title'); ?>"
-                   type="text" value="<?php echo $title; ?>" />
-        </p>
-
-        <!-- User -->
-        <p>
-        <?php _e('Update your social media accounts in your user profile "Users" - "Your Profile"', "spiw"); ?>
-        </p>
-        <p>
-            <label for="<?php echo $this->get_field_id('users'); ?>">
-                <?php _e('Chose an user to display:', "spiw"); ?>
-            </label>
-
-        <?php wp_dropdown_users(array('id' => $this->get_field_id('users'),
-                             'name' => $this->get_field_name('users'), 'selected'=> $user)); ?>
-        </p>
-
-        <!-- Icon Size -->
-        <?php $icon_size = isset($instance['icon-size']) ? esc_attr($instance['icon-size']) :
-            self::$defaults["icon-size"]; ?>
-        <p>
-            <label for="<?php echo $this->get_field_id('icon-size'); ?>">
-                <?php _e('Icon Size:', "spiw"); ?>
-            </label>
-
-            <input id="<?php echo $this->get_field_id('icon-size'); ?>" 
-                   name="<?php echo $this->get_field_name('icon-size'); ?>"
-                   type="text" size="4" value="<?php echo $icon_size; ?> size=" />
-        </p>
-
-        <!-- Border Radius -->
-        <?php $border_radius = isset($instance['border-radius']) ?
-            esc_attr($instance['border-radius']) : self::$defaults["border-radius"]; ?>
-        <p>
-            <label for="<?php echo $this->get_field_id('icon-size'); ?>">
-                <?php _e('Border radius:', "spiw"); ?>
-            </label>
-
-            <input id="<?php echo $this->get_field_id('border-radius'); ?>" 
-                   name="<?php echo $this->get_field_name('border-radius'); ?>"
-                   type="text" size="4" value="<?php echo $border_radius; ?>" />
-        </p>
-
-        <!-- Rounded -->
-        <?php $rounded = isset($instance['rounded']) ?
-            True : False; ?>
-        <p>
-            <input id="<?php echo $this->get_field_id('rounded'); ?>" 
-                   name="<?php echo $this->get_field_name('rounded'); ?>"
-                   type="checkbox" <?php checked($rounded); ?> />
-            
-            <label for="<?php echo $this->get_field_id('rounded'); ?>">
-                <?php _e('Round icons', "spiw"); ?>
-            </label>
-        </p>
-
-        <!-- Monocron -->
-        <?php $monocron = isset($instance['monocron']) ?
-             True : False; ?>
-        <p>
-           <input id="<?php echo $this->get_field_id('monocron'); ?>" 
-                   name="<?php echo $this->get_field_name('monocron'); ?>"
-                   type="checkbox" <?php checked($monocron); ?> />
-            
-             <label for="<?php echo $this->get_field_id('monocron'); ?>">
-                <?php _e('Monocron style', "spiw"); ?>
-            </label><br />
-            <p><?php _e('Icons will be displayed in a configurable color
-            and fade into their branded color on mouse hover.', "spiw"); ?></p>
-        </p>
-        <!-- Monocron color -->
-        <p>
-            <?php $monocron_color = isset($instance['monocron-color']) ?
-                esc_attr($instance['monocron-color']) : self::$defaults["monocron-color"]; ?>
-            
-            <input id="<?php echo $this->get_field_id('monocron-color'); ?>"
-                   name="<?php echo $this->get_field_name('monocron-color'); ?>"
-                   type="text" value="<?php echo $monocron_color; ?>" class="spiw-color-field" 
-                   data-default-color="<?php echo self::$defaults["monocron-color"]; ?>" />
-            <br />
-            <label for="<?php echo $this->get_field_id('monocron-color'); ?>">
-                <?php _e('Monocron background icon color', "spiw"); ?>
-            </label>
-        </p>
-        <?php /** END HTML Code **/
+         * widget-view.php
+         *
+         * Widget Settings:
+         * Title : text field
+         * User : wp_dropdown_users
+         * Icon size : text field
+         * Border radius: text field
+         * Rounded : checkbox
+         * Monocron : checkbox
+         * Monocron color: wp_colorpicker
+         */ 
+        include('widget-view.php');
     }
-    
-    /***
-    /* Gets current selected user in widget options
-    /***/ 
+
+    /**
+     * Gets current selected user in widget options
+     */ 
     private function get_current_user($instance) {
         $output = '';
         if (!empty($instance['users'])) {
@@ -229,32 +134,34 @@ class WP_Widget_social_profile_icons extends WP_Widget {
         }
         return $output;
     }
-    
-    /***
-    /* Validates size input, makes sure the size is given in "px"
-    /* -> Is directly used in css!
-    /***/ 
+
+    /**
+     * Validates size input, makes sure the size is given in "px"
+     * -> Is directly used in css!
+     * @param $css String
+     */ 
     private function check_size($css) {
         $css = preg_replace("/[^0-9]/", "", $css);
         if(intval($css) < 100 and intval($css) > 0) {            
             return $css . 'px';
         }
     }
-    
-    /***
-    /* Validates color input
-    /* -> Color is directly used in css!
-    /***/ 
+
+    /**
+     * Validates color input
+     * -> Color is directly used in css!
+     * @param $color String
+     */ 
     private function check_color($color) {
         if (preg_match( '/^#[a-f0-9]{6}$/i', $color)) {
             return $color;
         }
     }
-    
-    /***
-    /* Gets custom inline css
-    /* as much as possible should be coming from the integrated spiw.css
-    /***/ 
+
+    /**
+     * Gets custom inline css
+     * as much as possible should be coming from the integrated spiw.css
+     */ 
     private function get_custom_css($instance) {
         $output = '<style media="screen" type="text/css">';
         $selector = '#social-profile-icons-' . $this->number;
@@ -268,8 +175,7 @@ class WP_Widget_social_profile_icons extends WP_Widget {
                 $selector . ' li,
                 #social-profile-icons-' . $this->number . ' .spiw-icon {                
                     border-radius:' . $border_radius . ';                
-                }
-            ';
+                }';
         } else {
             $output .= 
                 $selector . ' li,' .
@@ -278,7 +184,7 @@ class WP_Widget_social_profile_icons extends WP_Widget {
                 }
             ';
         }
-        
+
         // Monocron setting
         if (!isset($instance['monocron'])) {
             $output .= 
@@ -287,38 +193,33 @@ class WP_Widget_social_profile_icons extends WP_Widget {
                 }' .
                 $selector . ' li:hover .spiw-icon {
 	                opacity: 0.6;	
-                }
-            ';
+                }';
         } else if ($instance['monocron-color'] != "#F5f5f5") {
            $output .= 
                 $selector . ' li {                
                     background-color: ' . $instance['monocron-color'] . ';
-                }
-            '; 
+                }'; 
         }
-        
+
         // Icon size
         if (isset($instance['icon-size']) && $instance['icon-size'] != "40px") {
            $output .= 
                 $selector . ' ul {                
                     font-size: ' . $instance['icon-size'] . ';
-                }
-            '; 
+                }'; 
         }
         $output .= '</style>';
         return $output;
     }
 } /* END Widget class */
 
-
+// Register the widget
 function spiw_register_widgets() {
     register_widget('WP_Widget_social_profile_icons');
 }
 add_action('widgets_init', 'spiw_register_widgets');
 
-/***
-/* Add new user fields
-/***/
+// Add new user fields
 function spiw_user_fields($profile_fields) {
 	$profile_fields['twitter'] = __('Twitter URL', "spiw");
 	$profile_fields['facebook'] = __('Facebook URL', "spiw");
@@ -326,19 +227,17 @@ function spiw_user_fields($profile_fields) {
 	$profile_fields['pinterest'] = __('Pinterest URL', "spiw");
 	$profile_fields['instagram'] = __('Instagram URL', "spiw");
 	$profile_fields['youtube'] = __('Youtube URL', "spiw");
-
 	return $profile_fields;
 }
 add_filter('user_contactmethods', 'spiw_user_fields');
 
-/**
- * Enqueue scripts and styles.
- */
+// Enqueue scripts and styles.
 function spiw_scripts() { 
 	wp_enqueue_style('spiw-css', plugins_url('/css/spiw.css', __FILE__ ));
 }
 add_action('wp_enqueue_scripts', 'spiw_scripts');
 
+// Color picker script
 function spiw_admin_scripts($hook) {
     if ('widgets.php' != $hook) {
         return;
@@ -349,10 +248,8 @@ function spiw_admin_scripts($hook) {
 }
 add_action('admin_enqueue_scripts', 'spiw_admin_scripts');
 
-/**
- * Textdomain
- */
+// Load textdomain
 add_action('plugins_loaded', 'spiw_load_textdomain');
 function spiw_load_textdomain() {
-	load_plugin_textdomain( 'spiw', false, dirname( plugin_basename(__FILE__) ) . '/languages/' );
-} ?>
+	load_plugin_textdomain('spiw', false, dirname(plugin_basename(__FILE__)) . '/languages/');
+}
