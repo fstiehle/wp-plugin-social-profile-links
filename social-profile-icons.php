@@ -259,6 +259,7 @@ class WP_Widget_social_profile_icons extends WP_Widget {
         $output = '<style media="screen" type="text/css">';
         $selector = '#social-profile-icons-' . $this->number;
         
+        // Rounded or not
         if(!$rounded = isset($instance['rounded']) ? True : False) {
             $border_radius = isset($instance['border-radius']) ? esc_attr($instance['border-radius']) :
                 self::$defaults["border-radius"];
@@ -277,6 +278,8 @@ class WP_Widget_social_profile_icons extends WP_Widget {
                 }
             ';
         }
+        
+        // Monocron setting
         if (!isset($instance['monocron'])) {
             $output .= 
                 $selector . ' .spiw-icon {                
@@ -293,6 +296,8 @@ class WP_Widget_social_profile_icons extends WP_Widget {
                 }
             '; 
         }
+        
+        // Icon size
         if (isset($instance['icon-size']) && $instance['icon-size'] != "40px") {
            $output .= 
                 $selector . ' ul {                
