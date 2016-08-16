@@ -35,7 +35,7 @@
 
     <input id="<?php echo $this->get_field_id('icon-size'); ?>" 
            name="<?php echo $this->get_field_name('icon-size'); ?>"
-           type="text" size="4" value="<?php echo $icon_size; ?> size=" />
+           type="text" size="4" value="<?php echo $icon_size; ?>" />
 </p>
 
 <!-- Border Radius -->
@@ -72,18 +72,19 @@
            name="<?php echo $this->get_field_name('monocron'); ?>"
            type="checkbox" <?php checked($monocron); ?> />
 
-     <label for="<?php echo $this->get_field_id('monocron'); ?>">
+    <label for="<?php echo $this->get_field_id('monocron'); ?>">
         <?php _e('Monocron style', "spiw"); ?>
     </label><br />
-    <p><?php _e('Icons will be displayed in a configurable color
+    <p><?php _e('If checked icons will be displayed in a configurable color
     and fade into their branded color on mouse hover.', "spiw"); ?></p>
 </p>
 
 <!-- Monocron color -->
 <p>
+    <!--Background color -->
     <?php $monocron_color = isset($instance['monocron-color']) ?
         esc_attr($instance['monocron-color']) : self::$defaults["monocron-color"]; ?>
-
+    <p>
     <input id="<?php echo $this->get_field_id('monocron-color'); ?>"
            name="<?php echo $this->get_field_name('monocron-color'); ?>"
            type="text" value="<?php echo $monocron_color; ?>" class="spiw-color-field" 
@@ -92,4 +93,19 @@
     <label for="<?php echo $this->get_field_id('monocron-color'); ?>">
         <?php _e('Monocron background icon color', "spiw"); ?>
     </label>
+    </p>
+    
+    <!--Font/Icon color -->
+    <?php $icon_color = isset($instance['icon-color']) ?
+        esc_attr($instance['icon-color']) : self::$defaults["icon-color"]; ?>
+    <p>
+    <input id="<?php echo $this->get_field_id('icon-color'); ?>"
+           name="<?php echo $this->get_field_name('icon-color'); ?>"
+           type="text" value="<?php echo $icon_color; ?>" class="spiw-color-field" 
+           data-default-color="<?php echo self::$defaults["icon-color"]; ?>" />
+    <br />
+    <label for="<?php echo $this->get_field_id('icon-color'); ?>">
+        <?php _e('Monocron icon color', "spiw"); ?>
+    </label>
+    </p>
 </p>
