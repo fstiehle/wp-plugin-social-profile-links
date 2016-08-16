@@ -220,7 +220,7 @@ class WP_Widget_social_profile_icons extends WP_Widget {
 
     /**
      * Validates size input
-     * @param $css String
+     * @param $size String
      */ 
     private function sanitize_size($size) {
         $size = preg_replace("/[^0-9]/", "", $size);
