@@ -135,9 +135,15 @@ class WP_Widget_social_profile_icons extends WP_Widget {
         foreach (self::$profiles as $key) {
             if (get_the_author_meta($key['css'], $user)) {
                 // Set branded background color if monocron setting is deactivated
-                $output .= '<li class="spiw-' . $key['css'] . '"';
+                $output .= '<li class="spiw-' . $key['css'];
                 if (!$instance['monocron']) {
+                    // add class for non-monocron-icons
+                    $output .= ' non-mono"';
+                    // add background color
                     $output .= ' style="background-color:' . $key['color'] . ';"';  
+                } else {
+                    // add class for monocron-icons
+                    $output .= ' mono"';
                 }
                 $output .= '>';
                 $output .= '<a href="' . get_the_author_meta($key['css'], $user) .

@@ -76,17 +76,23 @@
     color: #fff;
 }
 .spiw > li {
-    -webkit-transition: all .3s ease-in-out;
-  	-moz-transition: all .3s ease-in-out; 	
-  	-o-transition: all .3s ease-in-out;
- 	transition: all .3s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+  	-moz-transition: all .4s ease-in-out; 	
+  	-o-transition: all .4s ease-in-out;
+ 	transition: all .4s ease-in-out;
 }
 .spiw > li > i {
     display: block;
 }
-.spiw > li:hover > a {
-    color: #fff !important;
+.spiw > mono:hover > a {
+    color: #fff;
 }
+.spiw > .non-mono:hover > a {
+    color: #fff;
+    /* Fade effect */
+    opacity: 0.75;
+}
+
 /* Icon hover colors (brand colors)
 /* branding colors from: http://brandcolors.net/
 /*************
