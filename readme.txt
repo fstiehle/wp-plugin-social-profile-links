@@ -1,13 +1,19 @@
 === Social User Icons Widget ===
+Tags: comments, spam
+Requires at least: 4.5
+Tested up to: 4.5.3
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Contributors: gravitas
-Tags: social media, icons, social profiles, user profile
+Tags: social media, social icons, social profiles, social buttons, social, widget
 
-Displays customizable social media icons in a widget area.
+Displays customizable social media icons based on user profiles in a widget area.
 
 == Description ==
-Easy to use widget to insert customizable social media icons into one of your widget areas. The icons are defined per user, multiple widgets for different users/social-media accounts are possible.
+Easy to use widget to insert customizable social media icons into one of your widget areas. The icons are defined by user, multiple widgets for different users/social-media accounts and different styling are possible.
 
-Easily extensible for Developers.
+Easily extendable for Developers.
+https://github.com/fstiehle/wp-plugin-social-profile-links
 
 == Installation ==
 Manually:
@@ -32,7 +38,18 @@ How do I set up my social media profiles?
 - Update your social media accounts in your user profile \"Users\" -> \"Your Profile\"
 - this allows you multiple widgets for different users
 
-Which platforms are supported?
+Which platforms are currently supported?:
+- Facebook
+- Twitter
+- Google Plus
+- Pinterest
+- Instagram
+- Youtube
+- Github
+- LinkedIn
+- Xing
+- Twitch
+- Vine
 
 I\'m a developer and want to make improvements or additions?
-- Great! head over to github: 
+- Great! head over to Github: https://github.com/fstiehle/wp-plugin-social-profile-links
