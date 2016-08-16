@@ -36,6 +36,10 @@
     <input id="<?php echo $this->get_field_id('icon-size'); ?>" 
            name="<?php echo $this->get_field_name('icon-size'); ?>"
            type="text" size="4" value="<?php echo $icon_size; ?>" />
+    
+    <label for="<?php echo $this->get_field_id('icon-size'); ?>">
+        <?php _e('px', "spiw"); ?>
+    </label>
 </p>
 
 <!-- Border Radius -->
@@ -49,11 +53,15 @@
     <input id="<?php echo $this->get_field_id('border-radius'); ?>" 
            name="<?php echo $this->get_field_name('border-radius'); ?>"
            type="text" size="4" value="<?php echo $border_radius; ?>" />
+    
+    <label for="<?php echo $this->get_field_id('icon-size'); ?>">
+        <?php _e('px', "spiw"); ?>
+    </label>
 </p>
 
 <!-- Rounded -->
 <?php $rounded = isset($instance['rounded']) ?
-    True : False; ?>
+    esc_attr($instance['rounded']) : self::$defaults["rounded"]; ?>
 <p>
     <input id="<?php echo $this->get_field_id('rounded'); ?>" 
            name="<?php echo $this->get_field_name('rounded'); ?>"
@@ -66,7 +74,7 @@
 
 <!-- Monocron -->
 <?php $monocron = isset($instance['monocron']) ?
-     True : False; ?>
+    esc_attr($instance['monocron']) : self::$defaults["monocron"]; ?>
 <p>
    <input id="<?php echo $this->get_field_id('monocron'); ?>" 
            name="<?php echo $this->get_field_name('monocron'); ?>"

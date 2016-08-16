@@ -2,7 +2,7 @@
 /*
 Plugin Name: Social Profile Icons Widget
 Plugin URI:  http://fabianstiehle.com/spiw
-Description: This describes my plugin in a short sentence
+Description: Displays social profile icons based on user profiles. Easy to use and highly customizable.
 Version:     0.8
 Author:      Fabian Stiehle
 Author URI:  http://fabianstiehle.com
@@ -92,10 +92,13 @@ class WP_Widget_social_profile_icons extends WP_Widget {
      * Default widget settings
      */  
     private static $defaults = array(
-        'icon-size' => "50px",
-        'border-radius' => "0",
-        'icon-color' => "#fffff",
-        'monocron-color' => "#eeeee",
+        'icon-size' => "50",
+        'border-radius' => "2",
+        'icon-color' => "#ffffff",
+        'monocron-color' => "#cccccc",
+        'rounded' => False,
+        'monocron' => False,
+        'title' => 'Follow me'
     );
 
     function __construct() {
@@ -113,7 +116,7 @@ class WP_Widget_social_profile_icons extends WP_Widget {
         extract($args);  
         extract($instance);
 
-        $title = (!empty($instance['title'])) ? $instance['title'] : __('Follow me', "spiw");   
+        $title = (!isset($instance['title'])) ? $instance['title'] : __(self::$defaults["title"], "spiw");
 
         // See: wp-includes/default-widgets.php
         $title = apply_filters('widget_title', $title, $instance, $this->id_base);              
@@ -133,7 +136,7 @@ class WP_Widget_social_profile_icons extends WP_Widget {
             if (get_the_author_meta($key['css'], $user)) {
                 // Set branded background color if monocron setting is deactivated
                 $output .= '<li class="spiw-' . $key['css'] . '"';
-                if(!isset($instance['monocron'])) {
+                if (!$instance['monocron']) {
                     $output .= ' style="background-color:' . $key['color'] . ';"';  
                 }
                 $output .= '>';
@@ -151,10 +154,14 @@ class WP_Widget_social_profile_icons extends WP_Widget {
      * Update widget options
      */  
     function update($new_instance, $old_instance) {
-        $instance = $new_instance;
-        $instance['icon-size'] = $this->check_size(strip_tags($new_instance['icon-size']));
-        $instance['border-radius'] = $this->check_size(strip_tags($new_instance['border-radius']));
-        $instance['monocron-color'] = $this->check_color($new_instance['monocron-color']);
+        $instance['title'] = sanitize_title($new_instance['title']);
+        $instance['users'] = sanitize_user($new_instance['users']);
+        $instance['rounded'] = $this->sanitize_checkbox($new_instance['rounded']);
+        $instance['monocron'] = $this->sanitize_checkbox($new_instance['monocron']);
+        $instance['icon-size'] = $this->sanitize_size($new_instance['icon-size']);
+        $instance['border-radius'] = $this->sanitize_size($new_instance['border-radius']);
+        $instance['monocron-color'] = $this->sanitize_color($new_instance['monocron-color']);
+        $instance['icon-color'] = $this->sanitize_color($new_instance['icon-color']);
         return $instance;
     }
 
@@ -189,16 +196,30 @@ class WP_Widget_social_profile_icons extends WP_Widget {
             }
         }
         return $output;
+    }   
+
+    /**
+     * Sanitize Checkbox
+     * 
+     * Sanitization callback for 'checkbox' type controls.
+     * This callback sanitizes $input as a Boolean value, either
+     * TRUE or FALSE.
+     * Source: https://github.com/WPTRT/code-examples/blob/master/customizer/sanitization-callbacks.php
+     */
+    private function sanitize_checkbox($input) {
+
+        // Boolean check 
+        return ((isset($input) && True == $input) ? True : False);
     }
 
     /**
      * Validates size input
      * @param $css String
      */ 
-    private function check_size($css) {
-        $css = preg_replace("/[^0-9]/", "", $css);
-        if(intval($css) < 100 and intval($css) > 0) {            
-            return $css;
+    private function sanitize_size($size) {
+        $size = preg_replace("/[^0-9]/", "", $size);
+        if(intval($size) < 100 and intval($size) > 0) {            
+            return $size;
         }
     }
 
@@ -216,7 +237,7 @@ class WP_Widget_social_profile_icons extends WP_Widget {
      * -> Color is directly used in css!
      * @param $color String
      */ 
-    private function check_color($color) {
+    private function sanitize_color($color) {
         if (preg_match( '/^#[a-f0-9]{6}$/i', $color)) {
             return $color;
         }
@@ -231,12 +252,11 @@ class WP_Widget_social_profile_icons extends WP_Widget {
         $selector = '#social-profile-icons-' . $this->number;
 
         // Rounded or not
-        if(!$rounded = isset($instance['rounded'])) {
-            $border_radius = isset($instance['border-radius']) ? esc_attr($instance['border-radius']) :
-                self::$defaults["border-radius"];
+        if(!$rounded = $instance['rounded']) {
+            $border_radius = esc_attr($instance['border-radius']);
             $output .= 
                 $selector . ' > ul > li {                
-                    border-radius:' . $border_radius . ';                
+                    border-radius:' . $border_radius . 'px;                
                 }';
         } else {
             $output .= 
@@ -246,7 +266,7 @@ class WP_Widget_social_profile_icons extends WP_Widget {
         }
 
         // Monocron setting
-        if (isset($instance['monocron'])) {
+        if ($instance['monocron']) {
             $output .=
                 $selector . ' > ul > li > a {
                     color: ' . $instance['icon-color'] . ';
@@ -257,10 +277,11 @@ class WP_Widget_social_profile_icons extends WP_Widget {
         }
 
         // Icon size
-        if (isset($instance['icon-size']) && $instance['icon-size'] != "50px") {
+        if ($instance['icon-size'] != "50px") {
+           $icon_size = esc_attr($this->get_actual_size($instance['icon-size']));
            $output .= 
                 $selector . ' > ul {
-                    font-size: ' . $this->get_actual_size($instance['icon-size']) . 'px;
+                    font-size: ' . $icon_size . 'px;
                 }';
         }
         $output .= '</style>';
