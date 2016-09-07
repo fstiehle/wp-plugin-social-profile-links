@@ -326,7 +326,7 @@ add_action('widgets_init', 'spiw_register_widgets');
  * css
  */
 function spiw_scripts() { 
-	wp_enqueue_style('spiw-css', plugins_url('/css/spiw.min.css', __FILE__ ));
+	wp_enqueue_style('spiw-css', plugins_url('/css/spiw.css', __FILE__ ));
 }
 add_action('wp_enqueue_scripts', 'spiw_scripts');
 
