@@ -10,11 +10,9 @@ Tags: social media, social icons, social profiles, social buttons, social, widge
 Displays customizable social media icons based on user profiles in a widget area.
 
 == Description ==
-Easy to use widget to insert customizable social media icons into one of your widget areas. The icons are defined by user, multiple widgets for different users/social-media accounts and different styling are possible.
+Easy to use widget to insert customizable social media icons into one of your widget areas. The icons are defined by user, multiple widgets for different user accounts with different stylings are possible.
 
-Customize background and icon colors, border-radius and size.
-
-Easily extendable for Developers.
+Customize colors, border-radius and size.
 
 == Installation ==
 Manually:
