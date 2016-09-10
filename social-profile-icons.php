@@ -3,7 +3,7 @@
 Plugin Name: Social Profile Icons Widget
 Plugin URI:  http://fabianstiehle.com/spiw
 Description: Displays social profile icons based on user profiles. Easy to use and highly customizable.
-Version:     0.8
+Version:     1.0
 Author:      Fabian Stiehle
 Author URI:  http://fabianstiehle.com
 License:     GPL2
