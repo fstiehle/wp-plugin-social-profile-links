@@ -1,5 +1,4 @@
-=== Social User Icons Widget ===
-Tags: comments, spam
+=== Social Profile Icons Widget ===
 Requires at least: 4.5
 Tested up to: 4.5.3
 License: GPLv2 or later
@@ -18,12 +17,12 @@ Customize colors, border-radius and size.
 Manually:
 * Upload the plugin folder to your wordpress plugin folder
 
-Activation:
-* Activate the plugin via the \"Plugins\" menu in your WordPress Backend
-* In your widgets menu, activate the widget \"Social Links\"
-* Update your social media accounts in your user profile \"Users\" -> \"Your Profile\"
+= Activation: =
+* Activate the plugin via the "Plugins" menu in your WordPress Backend
+* In your widgets menu, activate the widget "Social Links"
+* Update your social media accounts in your user profile "Users" -> "Your Profile"
 
-Configuration:
+= Configuration: =
 * Chose a widget title, default: \"Follow me\"
 * Chose an user to display the social links/icons
 * Icon Size, Chose a icon size, default: 40px
