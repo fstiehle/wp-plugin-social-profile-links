@@ -3,7 +3,7 @@
 Plugin Name: Social Profile Icons Widget
 Plugin URI:  http://fabianstiehle.com/spiw
 Description: Displays social profile icons based on user profiles. Easy to use and highly customizable.
-Version:     1.0
+Version:     1.1
 Author:      Fabian Stiehle
 Author URI:  http://fabianstiehle.com
 License:     GPL2
@@ -160,7 +160,7 @@ class WP_Widget_social_profile_icons extends WP_Widget {
      * Update widget options
      */  
     function update($new_instance, $old_instance) {
-        $instance['title'] = sanitize_title($new_instance['title']);
+        $instance['title'] = sanitize_text_field($new_instance['title']);
         $instance['users'] = sanitize_user($new_instance['users']);
         $instance['rounded'] = $this->sanitize_checkbox($new_instance['rounded']);
         $instance['monocron'] = $this->sanitize_checkbox($new_instance['monocron']);
